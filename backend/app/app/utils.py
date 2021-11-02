@@ -7,6 +7,9 @@ import emails
 from emails.template import JinjaTemplate
 from jose import jwt
 import secrets, random, string
+import smtplib, ssl
+from pydantic import EmailStr
+import requests
 
 from app.core.config import settings
 
@@ -113,3 +116,31 @@ def create_secret():
 def create_anne(anne:str):
     ann = "anne_"+anne[0:4]+"_"+anne[5:9]
     return ann
+
+def send_new_account(email_to: str, password: str) -> str:
+    smtp_server = settings.SMTP_SERVER
+    smtp_port = settings.SMTP_PORT
+    sender_email = settings.EMAILS_FROM_EMAIL
+    sender_password = settings.PASSWORD_FROM_EMAIL
+
+    message = """\
+        FROM: {sender_email}
+        To: {email_to}
+        Subject: Nouveau compte FacScience
+        Nouveau compte:\n
+        Username: {email_to} \n
+        Password: {password} \n
+        """
+    context = ssl.create_default_context()
+    with smtplib.SMTP(smtp_server,smtp_port) as server:
+        server.ehlo()
+        server.starttls(context=context)
+        server.ehlo()
+        server.login(sender_email,sender_password)
+        server.sendmail(sender_email,email_to,message)
+
+def check_email_valide(email: EmailStr) -> str:
+    response = requests.get("https://isitarealemail.com/api/email/validate",
+    params={"email":email})
+    status = response.json()["status"]
+    return status
