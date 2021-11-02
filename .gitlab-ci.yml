@@ -41,9 +41,9 @@ deploy-stag:
   stage: deploy
   script: 
     - >
-      DOMAIN=stag.supplylink.com
-      TRAEFIK_TAG=stag.supplylink.com
-      STACK_NAME=stag-supplylink-com
+      DOMAIN=stag.facscience.com
+      TRAEFIK_TAG=stag.facscience.com
+      STACK_NAME=stag-facscience-com
       TAG=stag
       sh ./scripts/deploy.sh
   environment:
@@ -66,7 +66,7 @@ deploy-prod:
       sh ./scripts/deploy.sh
   environment:
     name: production
-    url: https://supplylink.com
+    url: https://facscience.com
   only:
     - production
   tags:

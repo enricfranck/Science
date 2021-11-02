@@ -1,4 +1,7 @@
-from typing import Optional
+from typing import Optional, Any
+from uuid import uuid4
+
+from sqlalchemy.sql.sqltypes import String
 
 from pydantic import BaseModel, EmailStr
 
@@ -7,14 +10,18 @@ from pydantic import BaseModel, EmailStr
 class UserBase(BaseModel):
     email: Optional[EmailStr] = None
     is_active: Optional[bool] = True
+    is_admin: Optional[bool]
     is_superuser: bool = False
-    full_name: Optional[str] = None
+    name: Optional[str] = None
+    uuid_mention: Optional[str]
+    uuid_role: Optional[str]
 
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
     email: EmailStr
     password: str
+    name: str
 
 
 # Properties to receive via API on update
@@ -23,7 +30,7 @@ class UserUpdate(UserBase):
 
 
 class UserInDBBase(UserBase):
-    id: Optional[int] = None
+    uuid: Optional[Any]
 
     class Config:
         orm_mode = True

@@ -34,12 +34,30 @@ def login_access_token(
     elif not crud.user.is_active(user):
         raise HTTPException(status_code=400, detail="Inactive user")
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
-    return {
-        "access_token": security.create_access_token(
-            user.id, expires_delta=access_token_expires
-        ),
-        "token_type": "bearer",
-    }
+    token =  security.create_access_token(
+            user.uuid, expires_delta=access_token_expires
+        )
+    mention = crud.mention.get_by_uuid(db, uuid=user.uuid_mention)
+    role = crud.role.get_by_uuid(db, uuid=user.uuid_role)
+    if crud.user.is_superuser(user):
+        return {
+            "access_token":token,
+            "mention":"all",
+            "uuid_mention":"null",
+            "role":"supperuser",
+            "uuid_role":"",
+            "token_type": "bearer",
+        }
+    else:
+        return {
+            "access_token":token,
+            "mention":mention.title,
+            "uuid_mention":mention.uuid,
+            "role":role.title,
+            "uuid_role":role.uuid,
+            "token_type": "bearer",
+        }
+
 
 
 @router.post("/login/test-token", response_model=schemas.User)

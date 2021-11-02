@@ -6,6 +6,7 @@ from typing import Any, Dict, Optional
 import emails
 from emails.template import JinjaTemplate
 from jose import jwt
+import secrets, random, string
 
 from app.core.config import settings
 
@@ -104,3 +105,11 @@ def verify_password_reset_token(token: str) -> Optional[str]:
         return decoded_token["email"]
     except jwt.JWTError:
         return None
+
+def create_secret():
+    res = "".join(secrets.choice(string.ascii_letters+string.digits) for x in range(10))
+    return res
+
+def create_anne(anne:str):
+    ann = "anne_"+anne[0:4]+"_"+anne[5:9]
+    return ann
