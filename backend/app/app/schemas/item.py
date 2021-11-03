@@ -1,4 +1,5 @@
 from typing import Optional, Any
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -21,7 +22,7 @@ class ItemUpdate(ItemBase):
 
 # Properties shared by models stored in DB
 class ItemInDBBase(ItemBase):
-    uuid: Optional[Any]
+    uuid: Optional[UUID]
     title: str
     owner_id: int
 

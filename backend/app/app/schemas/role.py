@@ -1,4 +1,5 @@
 from typing import Optional, Any
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -19,7 +20,7 @@ class RoleUpdate(RoleBase):
 
 
 class RoleInDBBase(RoleBase):
-    uuid: Optional[Any]
+    uuid: Optional[UUID]
 
     class Config:
         orm_mode = True

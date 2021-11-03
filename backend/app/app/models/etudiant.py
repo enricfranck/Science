@@ -4,17 +4,11 @@ from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.dialects.postgresql.base import UUID
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
-from sqlalchemy.sql.schema import MetaData, Table
+from sqlalchemy.sql.schema import ForeignKey, MetaData, Table
 from app.db.session import engine
 
 
-class AncienEtudiant():
-    def __init__(self,SCHEMAS):
-        self.SCHEMAS = SCHEMAS
-    
-    SCHEMAS: str
 def create(schemas):
-        SCHEMAS = schemas
         base =  MetaData()
         ancien_etudiant = Table("ancien_etudiant",base,
             Column("uuid",UUID(as_uuid=True), primary_key=True, default=uuid.uuid4()),
@@ -36,10 +30,10 @@ def create(schemas):
             Column("photo",String,unique=True),
             Column("moyenne",String),
             Column("bacc",String),
-            Column("uuid_mention",UUID(as_uuid=True)),
+            Column("uuid_mention",UUID(as_uuid=True),ForeignKey("mention.uuid")),
             Column("uuid_parcours",UUID(as_uuid=True)),
-            Column("uuid_semestre_petit",UUID(as_uuid=True)),
-            Column("uuid_semestre_grand",UUID(as_uuid=True)),
+            Column("semestre_petit",String),
+            Column("semestre_grand",String),
             schema=schemas
         )
         nouveau_etudiant = Table("nouveau_etudiant",base,

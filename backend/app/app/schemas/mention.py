@@ -1,6 +1,6 @@
 from typing import Optional, Any
 
-from sqlalchemy.dialects.postgresql.base import UUID
+from uuid import UUID
 from pydantic import BaseModel
 
 
@@ -20,7 +20,7 @@ class MentionUpdate(MentionBase):
 
 
 class MentionInDBBase(MentionBase):
-    uuid: Optional[Any]
+    uuid: Optional[UUID]
 
     class Config:
         orm_mode = True

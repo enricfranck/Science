@@ -123,13 +123,13 @@ def send_new_account(email_to: str, password: str) -> str:
     sender_email = settings.EMAILS_FROM_EMAIL
     sender_password = settings.PASSWORD_FROM_EMAIL
 
-    message = """\
-        FROM: {sender_email}
+    message = f"""\
+        FROM: Faculté des Sciences
         To: {email_to}
         Subject: Nouveau compte FacScience
         Nouveau compte:\n
-        Username: {email_to} \n
-        Password: {password} \n
+        Username: {email_to}
+        Password: {password}
         """
     context = ssl.create_default_context()
     with smtplib.SMTP(smtp_server,smtp_port) as server:

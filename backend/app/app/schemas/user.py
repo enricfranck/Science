@@ -1,5 +1,5 @@
 from typing import Optional, Any
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from sqlalchemy.sql.sqltypes import String
 
@@ -30,7 +30,7 @@ class UserUpdate(UserBase):
 
 
 class UserInDBBase(UserBase):
-    uuid: Optional[Any]
+    uuid: Optional[UUID]
 
     class Config:
         orm_mode = True

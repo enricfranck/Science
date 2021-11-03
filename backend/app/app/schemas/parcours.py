@@ -1,4 +1,5 @@
 from typing import Optional, Any
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -18,11 +19,11 @@ class ParcoursCreate(ParcoursBase):
 # Properties to receive via API on update
 class ParcoursUpdate(ParcoursBase):
     title: Optional[str] = None
-    uuid_mention: Optional[str] = None
+    uuid_mention: Optional[UUID] = None
 
 
 class ParcoursInDBBase(ParcoursBase):
-    uuid: Optional[Any]
+    uuid: Optional[UUID]
 
     class Config:
         orm_mode = True

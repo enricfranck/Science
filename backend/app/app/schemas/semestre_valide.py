@@ -1,4 +1,5 @@
 from typing import List, Optional, Any
+from uuid import UUID
 
 from pydantic import BaseModel
 
@@ -23,7 +24,7 @@ class SemestreValideUpdate(SemestreValideBase):
 
 
 class SemestreValideInDBBase(SemestreValideBase):
-    uuid: Optional[Any]
+    uuid: Optional[UUID]
 
     class Config:
         orm_mode = True
